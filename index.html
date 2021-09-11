@@ -1,9 +1,26 @@
 <!doctype html>
 <html>
   <head>
-    <title>Empire Expiry Test</title>
+    <title>Empire Expiry</title>
+    <link rel='stylesheet' href='main.css'>
   </head>
+
   <body>
-    <p>Future space for this game.</p>
+    <script src='button.js'></script>
   </body>
+
+  <div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'Settlement')">Settlement</button>
+    <button class="tablinks" onclick="openTab(event, 'Survivors')">Survivors</button>
+  </div>
+
+  <div id="Settlement" class="tabcontent">
+    <h3>Settlement</h3>
+    <p>This is where settlement stuff will go.</p>
+  </div>
+
+  <div id="Survivors" class="tabcontent">
+    <h3>Survivors</h3>
+    <p>This is where survivors will go.</p>
+  </div>
 </html>
