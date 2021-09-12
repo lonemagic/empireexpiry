@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "random-character-name": "^1.7.0",
     "survivor": "^0.0.3"
   },
   "devDependencies": {

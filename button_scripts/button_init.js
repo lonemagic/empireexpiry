@@ -1,5 +1,6 @@
 const {openTab, hideAllTabs} = require("./tab.js");
 const {createRandomSurvivor} = require("./create_survivor.js");
+const {createSurvivorList} = require("../html_helpers/display_survivor.js");
 
 window.onload = function(){
   document.getElementById("settlement_btn").onclick = function() {
@@ -8,6 +9,7 @@ window.onload = function(){
 
   document.getElementById("survivors_btn").onclick = function() {
     openTab('Survivors');
+    createSurvivorList();
   }
 
   document.getElementById("dev_btn").onclick = function() {
@@ -19,5 +21,6 @@ window.onload = function(){
   }
 
   hideAllTabs();
+  //TODO: remove this
   createRandomSurvivor();
 };

@@ -1,17 +1,25 @@
 const {Survivor} = require("./survivor.js");
-const {displaySurvivor} = require("../html_helpers/display_survivor.js");
 
 export class Settlement{
   constructor(){
-    this.name = null;
-    this.year = 0;
-    this.survivors = [];
+    this._name = "Dev Settlement";
+    this._year = 0;
+    this._survivors = [];
   }
 
   addSurvivor(name) {
     let survivor = new Survivor(name);
-    this.survivors.push(survivor);
-    //TODO: Move this somewhere else
-    displaySurvivor(survivor);
+    this._survivors.push(survivor);
+  }
+
+  get survivors() {
+    return this._survivors;
+  }
+
+  get name() {
+    return this._name;
+  }
+  set name(n) {
+    this._name = n;
   }
 }
