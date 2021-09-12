@@ -1,4 +1,4 @@
 # empireexpiry
 
 To compile:
-browserify main.js -o bundle.js
+browserify src/main.js -o bundle.js

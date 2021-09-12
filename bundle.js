@@ -1,321 +1,4 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-"use strict";
-
-var _require = require("./tab.js"),
-    openTab = _require.openTab,
-    hideAllTabs = _require.hideAllTabs;
-
-var _require2 = require("./create_survivor.js"),
-    createRandomSurvivor = _require2.createRandomSurvivor;
-
-var _require3 = require("../html_helpers/display_survivor.js"),
-    createSurvivorList = _require3.createSurvivorList;
-
-window.onload = function () {
-  document.getElementById("settlement_btn").onclick = function () {
-    openTab('Settlement');
-  };
-
-  document.getElementById("survivors_btn").onclick = function () {
-    openTab('Survivors');
-    createSurvivorList();
-  };
-
-  document.getElementById("dev_btn").onclick = function () {
-    openTab('Dev Tools');
-  };
-
-  document.getElementById("create_survivor_btn").onclick = function () {
-    createRandomSurvivor();
-  }; // 4 Basic Survivors
-
-
-  createRandomSurvivor();
-  createRandomSurvivor();
-  createRandomSurvivor();
-  createRandomSurvivor();
-  hideAllTabs();
-};
-
-},{"../html_helpers/display_survivor.js":7,"./create_survivor.js":2,"./tab.js":3}],2:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.createRandomSurvivor = createRandomSurvivor;
-
-var rndNameGen = require('random-character-name');
-
-var _require = require("../game.js"),
-    settlement = _require.settlement;
-
-function createRandomSurvivor() {
-  var success = false;
-
-  while (!success) {
-    //The split is to only grab the first name, since this name generator is dumb
-    success = settlement.addSurvivor(rndNameGen.single().split(' ')[0]);
-  }
-}
-
-},{"../game.js":4,"random-character-name":13}],3:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.openTab = openTab;
-exports.hideAllTabs = hideAllTabs;
-
-function openTab(id) {
-  // Declare all variables
-  var i, tablinks;
-  hideAllTabs(); // Get all elements with class="tablinks" and remove the class "active"
-
-  tablinks = document.getElementsByClassName("tablinks");
-
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace("active", "");
-  } // Show the current tab, and add an "active" class to the link that opened the tab
-
-
-  document.getElementById(id).style.display = "block";
-  document.getElementById(id).classList.add("active");
-}
-
-function hideAllTabs() {
-  // Get all elements with class="tabcontent" and hide them
-  var tabcontent = document.getElementsByClassName("tabcontent");
-
-  for (var i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-}
-
-},{}],4:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.settlement = void 0;
-
-var _require = require("./game_object_outlines/settlement.js"),
-    Settlement = _require.Settlement;
-
-var settlement = new Settlement();
-exports.settlement = settlement;
-
-},{"./game_object_outlines/settlement.js":5}],5:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Settlement = void 0;
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var _require = require("./survivor.js"),
-    Survivor = _require.Survivor;
-
-var Settlement = /*#__PURE__*/function () {
-  function Settlement() {
-    _classCallCheck(this, Settlement);
-
-    this._name = "Dev Settlement";
-    this._year = 0;
-    this._survivors = [];
-  }
-
-  _createClass(Settlement, [{
-    key: "addSurvivor",
-    value: function addSurvivor(name) {
-      var existing_survivor = this._survivors.find(function (x) {
-        return x.name === name;
-      });
-
-      if (existing_survivor == null) {
-        var survivor = new Survivor(name);
-
-        this._survivors.push(survivor);
-
-        return true;
-      } else {
-        return false;
-      }
-    }
-  }, {
-    key: "survivors",
-    get: function get() {
-      return this._survivors;
-    }
-  }, {
-    key: "name",
-    get: function get() {
-      return this._name;
-    },
-    set: function set(n) {
-      this._name = n;
-    }
-  }]);
-
-  return Settlement;
-}();
-
-exports.Settlement = Settlement;
-
-},{"./survivor.js":6}],6:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Survivor = void 0;
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Survivor = function Survivor(name) {
-  _classCallCheck(this, Survivor);
-
-  this.name = name;
-  this.xp = 0;
-  this.courage = 0;
-  this.understanding = 0;
-  this.strength = 0;
-  this.movement = 5;
-  this.speed = 0;
-  this.luck = 0;
-  this.accuracy = 0;
-  this.weapon_proficiency = "None";
-  this.weapon_proficiency_level = 0;
-  this.fighting_arts = [];
-  this.max_fighting_arts = 3;
-  this.disorders = [];
-  this.max_disorders = 3;
-  this.abilities = [];
-  this.impairments = [];
-  this.parents = [];
-  this.children = [];
-  this.survival = 1;
-  this.actions = [];
-  this.insanity = 0;
-};
-
-exports.Survivor = Survivor;
-
-},{}],7:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.displaySurvivor = displaySurvivor;
-exports.createSurvivorList = createSurvivorList;
-
-function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-var _require = require("../game.js"),
-    settlement = _require.settlement;
-
-function displaySurvivor(survivor) {
-  document.getElementById("name").innerHTML = "Name: " + survivor.name;
-  document.getElementById("xp").innerHTML = "Hunt XP: " + survivor.xp;
-  document.getElementById("courage").innerHTML = "Courage: " + survivor.courage;
-  document.getElementById("understanding").innerHTML = "Understanding: " + survivor.understanding;
-  document.getElementById("movement").innerHTML = "Movement: " + survivor.movement;
-  document.getElementById("strength").innerHTML = "Strength: " + survivor.strength;
-  document.getElementById("speed").innerHTML = "Speed: " + survivor.speed;
-  document.getElementById("accuracy").innerHTML = "Accuracy: " + survivor.accuracy;
-  document.getElementById("luck").innerHTML = "Luck: " + survivor.luck;
-  document.getElementById("weapon_proficiency").innerHTML = "Weapon Proficiency: " + survivor.weapon_proficiency;
-  document.getElementById("weapon_proficiency_level").innerHTML = "Weapon Proficiency Level: " + survivor.weapon_proficiency_level;
-  document.getElementById("fa_title").innerHTML = "Fighting Arts: ";
-  document.getElementById('fa_list').innerHTML = '';
-  var fas = 0;
-
-  var _iterator = _createForOfIteratorHelper(survivor.fighting_arts),
-      _step;
-
-  try {
-    for (_iterator.s(); !(_step = _iterator.n()).done;) {
-      var fa = _step.value;
-      fas += 1;
-      document.getElementById('fa_list').innerHTML += '<li>' + fa + '</li>';
-    }
-  } catch (err) {
-    _iterator.e(err);
-  } finally {
-    _iterator.f();
-  }
-
-  for (; fas < survivor.max_fighting_arts; fas++) {
-    document.getElementById('fa_list').innerHTML += '<li>None</li>';
-  } //TODO: Finish this sometime
-
-}
-
-function createSurvivorList() {
-  document.getElementById('survivor_list').innerHTML = '';
-
-  var _iterator2 = _createForOfIteratorHelper(settlement.survivors),
-      _step2;
-
-  try {
-    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-      var survivor = _step2.value;
-      document.getElementById('survivor_list').innerHTML += '<li><a href="#">' + survivor.name + '</a></li>';
-    }
-  } catch (err) {
-    _iterator2.e(err);
-  } finally {
-    _iterator2.f();
-  }
-
-  var list = document.getElementById('survivor_list').getElementsByTagName('li');
-
-  var _iterator3 = _createForOfIteratorHelper(list),
-      _step3;
-
-  try {
-    var _loop = function _loop() {
-      var item = _step3.value;
-
-      item.onclick = function () {
-        var chosen_survivor = settlement.survivors.find(function (x) {
-          return x.name === item.innerText;
-        });
-        displaySurvivor(chosen_survivor);
-      };
-    };
-
-    for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-      _loop();
-    }
-  } catch (err) {
-    _iterator3.e(err);
-  } finally {
-    _iterator3.f();
-  }
-}
-
-},{"../game.js":4}],8:[function(require,module,exports){
-"use strict";
-
-require("./game.js");
-
-require("./button_scripts/button_init.js");
-
-},{"./button_scripts/button_init.js":1,"./game.js":4}],9:[function(require,module,exports){
 (function (global){(function (){
 /**
  * @license
@@ -16926,7 +16609,7 @@ require("./button_scripts/button_init.js");
 }.call(this));
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],10:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 module.exports=[
   "Aaren",
   "Aarika",
@@ -21880,7 +21563,7 @@ module.exports=[
   "Zuzana"
 ]
 
-},{}],11:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 module.exports=[
   "Aaberg",
   "Aalst",
@@ -43871,7 +43554,7 @@ module.exports=[
   "Zysk"
 ]
 
-},{}],12:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 module.exports=[
   "Aaron",
   "Ab",
@@ -47772,7 +47455,7 @@ module.exports=[
   "Zolly"
 ]
 
-},{}],13:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /**
  * Created by jmichelin on 7/13/16.
  */
@@ -47856,7 +47539,7 @@ module.exports = {
     startsWithLetter: startsWithLetter,
     numberOfNames: numberOfNames
 };
-},{"../data/first-names.json":10,"../data/last-names.json":11,"../data/middle-names.json":12,"lodash":9,"unique-random-array":14}],14:[function(require,module,exports){
+},{"../data/first-names.json":2,"../data/last-names.json":3,"../data/middle-names.json":4,"lodash":1,"unique-random-array":6}],6:[function(require,module,exports){
 'use strict';
 var uniqueRandom = require('unique-random');
 
@@ -47868,7 +47551,7 @@ module.exports = function (arr) {
 	};
 };
 
-},{"unique-random":15}],15:[function(require,module,exports){
+},{"unique-random":7}],7:[function(require,module,exports){
 'use strict';
 module.exports = function (min, max) {
 	var prev;
@@ -47878,4 +47561,321 @@ module.exports = function (min, max) {
 	};
 };
 
-},{}]},{},[8]);
+},{}],8:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.createRandomSurvivor = createRandomSurvivor;
+
+var rndNameGen = require('random-character-name');
+
+var _require = require("../game.js"),
+    settlement = _require.settlement;
+
+function createRandomSurvivor() {
+  var success = false;
+
+  while (!success) {
+    //The split is to only grab the first name, since this name generator is dumb
+    success = settlement.addSurvivor(rndNameGen.single().split(' ')[0]);
+  }
+}
+
+},{"../game.js":9,"random-character-name":5}],9:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.settlement = void 0;
+
+var _require = require("./objects/settlement.js"),
+    Settlement = _require.Settlement;
+
+var settlement = new Settlement();
+exports.settlement = settlement;
+
+},{"./objects/settlement.js":10}],10:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Settlement = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var _require = require("./survivor.js"),
+    Survivor = _require.Survivor;
+
+var Settlement = /*#__PURE__*/function () {
+  function Settlement() {
+    _classCallCheck(this, Settlement);
+
+    this._name = "Dev Settlement";
+    this._year = 0;
+    this._survivors = [];
+  }
+
+  _createClass(Settlement, [{
+    key: "addSurvivor",
+    value: function addSurvivor(name) {
+      var existing_survivor = this._survivors.find(function (x) {
+        return x.name === name;
+      });
+
+      if (existing_survivor == null) {
+        var survivor = new Survivor(name);
+
+        this._survivors.push(survivor);
+
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }, {
+    key: "survivors",
+    get: function get() {
+      return this._survivors;
+    }
+  }, {
+    key: "name",
+    get: function get() {
+      return this._name;
+    },
+    set: function set(n) {
+      this._name = n;
+    }
+  }]);
+
+  return Settlement;
+}();
+
+exports.Settlement = Settlement;
+
+},{"./survivor.js":11}],11:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Survivor = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Survivor = function Survivor(name) {
+  _classCallCheck(this, Survivor);
+
+  this.name = name;
+  this.xp = 0;
+  this.courage = 0;
+  this.understanding = 0;
+  this.strength = 0;
+  this.movement = 5;
+  this.speed = 0;
+  this.luck = 0;
+  this.accuracy = 0;
+  this.weapon_proficiency = "None";
+  this.weapon_proficiency_level = 0;
+  this.fighting_arts = [];
+  this.max_fighting_arts = 3;
+  this.disorders = [];
+  this.max_disorders = 3;
+  this.abilities = [];
+  this.impairments = [];
+  this.parents = [];
+  this.children = [];
+  this.survival = 1;
+  this.actions = [];
+  this.insanity = 0;
+};
+
+exports.Survivor = Survivor;
+
+},{}],12:[function(require,module,exports){
+"use strict";
+
+var _require = require("./tabs/tab.js"),
+    openTab = _require.openTab,
+    hideAllTabs = _require.hideAllTabs;
+
+var _require2 = require("../game/dev/create_survivor.js"),
+    createRandomSurvivor = _require2.createRandomSurvivor;
+
+var _require3 = require("./tabs/survivor_tab.js"),
+    createSurvivorList = _require3.createSurvivorList;
+
+window.onload = function () {
+  document.getElementById("settlement_btn").onclick = function () {
+    openTab('Settlement');
+  };
+
+  document.getElementById("survivors_btn").onclick = function () {
+    openTab('Survivors');
+    createSurvivorList();
+  };
+
+  document.getElementById("dev_btn").onclick = function () {
+    openTab('Dev Tools');
+  };
+
+  document.getElementById("create_survivor_btn").onclick = function () {
+    createRandomSurvivor();
+  }; // 4 Basic Survivors
+
+
+  createRandomSurvivor();
+  createRandomSurvivor();
+  createRandomSurvivor();
+  createRandomSurvivor();
+  hideAllTabs();
+};
+
+},{"../game/dev/create_survivor.js":8,"./tabs/survivor_tab.js":13,"./tabs/tab.js":14}],13:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.displaySurvivor = displaySurvivor;
+exports.createSurvivorList = createSurvivorList;
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+var _require = require("../../game/game.js"),
+    settlement = _require.settlement;
+
+function displaySurvivor(survivor) {
+  document.getElementById("name").innerHTML = "Name: " + survivor.name;
+  document.getElementById("xp").innerHTML = "Hunt XP: " + survivor.xp;
+  document.getElementById("courage").innerHTML = "Courage: " + survivor.courage;
+  document.getElementById("understanding").innerHTML = "Understanding: " + survivor.understanding;
+  document.getElementById("movement").innerHTML = "Movement: " + survivor.movement;
+  document.getElementById("strength").innerHTML = "Strength: " + survivor.strength;
+  document.getElementById("speed").innerHTML = "Speed: " + survivor.speed;
+  document.getElementById("accuracy").innerHTML = "Accuracy: " + survivor.accuracy;
+  document.getElementById("luck").innerHTML = "Luck: " + survivor.luck;
+  document.getElementById("weapon_proficiency").innerHTML = "Weapon Proficiency: " + survivor.weapon_proficiency;
+  document.getElementById("weapon_proficiency_level").innerHTML = "Weapon Proficiency Level: " + survivor.weapon_proficiency_level;
+  document.getElementById("fa_title").innerHTML = "Fighting Arts: ";
+  document.getElementById('fa_list').innerHTML = '';
+  var fas = 0;
+
+  var _iterator = _createForOfIteratorHelper(survivor.fighting_arts),
+      _step;
+
+  try {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var fa = _step.value;
+      fas += 1;
+      document.getElementById('fa_list').innerHTML += '<li>' + fa + '</li>';
+    }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
+
+  for (; fas < survivor.max_fighting_arts; fas++) {
+    document.getElementById('fa_list').innerHTML += '<li>None</li>';
+  } //TODO: Finish this sometime
+
+}
+
+function createSurvivorList() {
+  document.getElementById('survivor_list').innerHTML = '';
+
+  var _iterator2 = _createForOfIteratorHelper(settlement.survivors),
+      _step2;
+
+  try {
+    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+      var survivor = _step2.value;
+      document.getElementById('survivor_list').innerHTML += '<li><a href="#">' + survivor.name + '</a></li>';
+    }
+  } catch (err) {
+    _iterator2.e(err);
+  } finally {
+    _iterator2.f();
+  }
+
+  var list = document.getElementById('survivor_list').getElementsByTagName('li');
+
+  var _iterator3 = _createForOfIteratorHelper(list),
+      _step3;
+
+  try {
+    var _loop = function _loop() {
+      var item = _step3.value;
+
+      item.onclick = function () {
+        var chosen_survivor = settlement.survivors.find(function (x) {
+          return x.name === item.innerText;
+        });
+        displaySurvivor(chosen_survivor);
+      };
+    };
+
+    for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+      _loop();
+    }
+  } catch (err) {
+    _iterator3.e(err);
+  } finally {
+    _iterator3.f();
+  }
+}
+
+},{"../../game/game.js":9}],14:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.openTab = openTab;
+exports.hideAllTabs = hideAllTabs;
+
+function openTab(id) {
+  // Declare all variables
+  var i, tablinks;
+  hideAllTabs(); // Get all elements with class="tablinks" and remove the class "active"
+
+  tablinks = document.getElementsByClassName("tablinks");
+
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace("active", "");
+  } // Show the current tab, and add an "active" class to the link that opened the tab
+
+
+  document.getElementById(id).style.display = "block";
+  document.getElementById(id).classList.add("active");
+}
+
+function hideAllTabs() {
+  // Get all elements with class="tabcontent" and hide them
+  var tabcontent = document.getElementsByClassName("tabcontent");
+
+  for (var i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+}
+
+},{}],15:[function(require,module,exports){
+"use strict";
+
+require("./game/game.js");
+
+require("./html/onload.js");
+
+},{"./game/game.js":9,"./html/onload.js":12}]},{},[15]);

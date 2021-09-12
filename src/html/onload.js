@@ -1,6 +1,6 @@
-const {openTab, hideAllTabs} = require("./tab.js");
-const {createRandomSurvivor} = require("./create_survivor.js");
-const {createSurvivorList} = require("../html_helpers/display_survivor.js");
+const {openTab, hideAllTabs} = require("./tabs/tab.js");
+const {createRandomSurvivor} = require("../game/dev/create_survivor.js");
+const {createSurvivorList} = require("./tabs/survivor_tab.js");
 
 window.onload = function(){
   document.getElementById("settlement_btn").onclick = function() {
@@ -24,6 +24,6 @@ window.onload = function(){
   createRandomSurvivor();
   createRandomSurvivor();
   createRandomSurvivor();
-  
+
   hideAllTabs();
 };

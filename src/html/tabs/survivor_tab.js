@@ -1,4 +1,4 @@
-const {settlement} = require("../game.js");
+const {settlement} = require("../../game/game.js");
 
 export function displaySurvivor(survivor){
   document.getElementById("name").innerHTML= "Name: " + survivor.name;
