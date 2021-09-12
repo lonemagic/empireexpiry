@@ -1,4 +1,4 @@
-class Survivor{
+export class Survivor{
   constructor(name){
     this.name = name;
     this.xp = 0;

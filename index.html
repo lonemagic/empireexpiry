@@ -3,21 +3,17 @@
   <head>
     <title>Empire Expiry</title>
     <link rel='stylesheet' href='main.css'>
+    <script src='bundle.js'></script>
   </head>
 
   <body>
-    <script src='button_scripts/tab.js'></script>
-    <script src='button_scripts/create_survivor.js'></script>
-    <script src='game_object_outlines/survivor.js'></script>
-    <script src='game_object_outlines/settlement.js'></script>
-    <script src='html_helpers/display_survivor.js'></script>
-    <script src='game.js'></script>
+
   </body>
 
   <div class="tab">
-    <button class="tablinks" onclick="openTab(event, 'Settlement')">Settlement</button>
-    <button class="tablinks" onclick="openTab(event, 'Survivors')">Survivors</button>
-    <button class="tablinks" onclick="openTab(event, 'Dev Tools')">Dev Tools</button>
+    <button class="tablinks" id="settlement_btn">Settlement</button>
+    <button class="tablinks" id="survivors_btn">Survivors</button>
+    <button class="tablinks" id="dev_btn">Dev Tools</button>
   </div>
 
   <div id="Settlement" class="tabcontent">
@@ -33,6 +29,6 @@
 
   <div id="Dev Tools" class="tabcontent">
     <h3>Dev Tools</h3>
-    <button class="tablinks" onclick="createRandomSurvivor()">Create a Random Survivor</button>
+    <button class="tablinks" id="create_survivor_btn">Create a Random Survivor</button>
   </div>
 </html>
