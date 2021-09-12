@@ -26,6 +26,7 @@ window.onload = function () {
   };
 
   hideAllTabs();
+  createRandomSurvivor();
 };
 
 },{"./create_survivor.js":2,"./tab.js":3}],2:[function(require,module,exports){

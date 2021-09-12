@@ -19,4 +19,5 @@ window.onload = function(){
   }
 
   hideAllTabs();
+  createRandomSurvivor();
 };
