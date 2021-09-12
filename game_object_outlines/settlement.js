@@ -8,8 +8,20 @@ export class Settlement{
   }
 
   addSurvivor(name) {
-    let survivor = new Survivor(name);
-    this._survivors.push(survivor);
+    var existing_survivor = this._survivors.find(x => {
+      return x.name === name;
+    })
+
+    if(existing_survivor == null){
+      let survivor = new Survivor(name);
+      this._survivors.push(survivor);
+      return true;
+    }
+    else{
+      return false;
+    }
+
+
   }
 
   get survivors() {

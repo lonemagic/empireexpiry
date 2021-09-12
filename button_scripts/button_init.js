@@ -19,6 +19,11 @@ window.onload = function(){
   document.getElementById("create_survivor_btn").onclick = function() {
     createRandomSurvivor();
   }
-
+  // 4 Basic Survivors
+  createRandomSurvivor();
+  createRandomSurvivor();
+  createRandomSurvivor();
+  createRandomSurvivor();
+  
   hideAllTabs();
 };

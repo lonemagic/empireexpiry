@@ -27,8 +27,13 @@ window.onload = function () {
 
   document.getElementById("create_survivor_btn").onclick = function () {
     createRandomSurvivor();
-  };
+  }; // 4 Basic Survivors
 
+
+  createRandomSurvivor();
+  createRandomSurvivor();
+  createRandomSurvivor();
+  createRandomSurvivor();
   hideAllTabs();
 };
 
@@ -42,12 +47,16 @@ exports.createRandomSurvivor = createRandomSurvivor;
 
 var rndNameGen = require('random-character-name');
 
+var _require = require("../game.js"),
+    settlement = _require.settlement;
+
 function createRandomSurvivor() {
-  var _require = require("../game.js"),
-      settlement = _require.settlement; //The split is to only grab the first name, since this name generator is dumb
+  var success = false;
 
-
-  settlement.addSurvivor(rndNameGen.single().split(' ')[0]);
+  while (!success) {
+    //The split is to only grab the first name, since this name generator is dumb
+    success = settlement.addSurvivor(rndNameGen.single().split(' ')[0]);
+  }
 }
 
 },{"../game.js":4,"random-character-name":13}],3:[function(require,module,exports){
@@ -127,9 +136,19 @@ var Settlement = /*#__PURE__*/function () {
   _createClass(Settlement, [{
     key: "addSurvivor",
     value: function addSurvivor(name) {
-      var survivor = new Survivor(name);
+      var existing_survivor = this._survivors.find(function (x) {
+        return x.name === name;
+      });
 
-      this._survivors.push(survivor);
+      if (existing_survivor == null) {
+        var survivor = new Survivor(name);
+
+        this._survivors.push(survivor);
+
+        return true;
+      } else {
+        return false;
+      }
     }
   }, {
     key: "survivors",
@@ -241,7 +260,8 @@ function displaySurvivor(survivor) {
 
   for (; fas < survivor.max_fighting_arts; fas++) {
     document.getElementById('fa_list').innerHTML += '<li>None</li>';
-  }
+  } //TODO: Finish this sometime
+
 }
 
 function createSurvivorList() {
