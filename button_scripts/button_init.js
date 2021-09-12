@@ -21,6 +21,4 @@ window.onload = function(){
   }
 
   hideAllTabs();
-  //TODO: remove this
-  createRandomSurvivor();
 };

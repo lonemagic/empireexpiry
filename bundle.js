@@ -29,9 +29,7 @@ window.onload = function () {
     createRandomSurvivor();
   };
 
-  hideAllTabs(); //TODO: remove this
-
-  createRandomSurvivor();
+  hideAllTabs();
 };
 
 },{"../html_helpers/display_survivor.js":7,"./create_survivor.js":2,"./tab.js":3}],2:[function(require,module,exports){
@@ -170,25 +168,23 @@ var Survivor = function Survivor(name) {
   this.xp = 0;
   this.courage = 0;
   this.understanding = 0;
-  this.str = 0;
-  this.move = 5;
+  this.strength = 0;
+  this.movement = 5;
   this.speed = 0;
   this.luck = 0;
   this.accuracy = 0;
-  this.weapon_proficiency = null;
+  this.weapon_proficiency = "None";
   this.weapon_proficiency_level = 0;
-  this.fighting_art_1 = null;
-  this.fighting_art_2 = null;
-  this.fighting_art_3 = null;
-  this.disorder_1 = null;
-  this.disorder_2 = null;
-  this.disorder_3 = null;
-  this.abilities = null;
-  this.impairments = null;
-  this.parents = null;
-  this.children = null;
+  this.fighting_arts = [];
+  this.max_fighting_arts = 3;
+  this.disorders = [];
+  this.max_disorders = 3;
+  this.abilities = [];
+  this.impairments = [];
+  this.parents = [];
+  this.children = [];
   this.survival = 1;
-  this.actions = null;
+  this.actions = [];
   this.insanity = 0;
 };
 
@@ -215,18 +211,27 @@ var _require = require("../game.js"),
 function displaySurvivor(survivor) {
   document.getElementById("name").innerHTML = "Name: " + survivor.name;
   document.getElementById("xp").innerHTML = "Hunt XP: " + survivor.xp;
-}
+  document.getElementById("courage").innerHTML = "Courage: " + survivor.courage;
+  document.getElementById("understanding").innerHTML = "Understanding: " + survivor.understanding;
+  document.getElementById("movement").innerHTML = "Movement: " + survivor.movement;
+  document.getElementById("strength").innerHTML = "Strength: " + survivor.strength;
+  document.getElementById("speed").innerHTML = "Speed: " + survivor.speed;
+  document.getElementById("accuracy").innerHTML = "Accuracy: " + survivor.accuracy;
+  document.getElementById("luck").innerHTML = "Luck: " + survivor.luck;
+  document.getElementById("weapon_proficiency").innerHTML = "Weapon Proficiency: " + survivor.weapon_proficiency;
+  document.getElementById("weapon_proficiency_level").innerHTML = "Weapon Proficiency Level: " + survivor.weapon_proficiency_level;
+  document.getElementById("fa_title").innerHTML = "Fighting Arts: ";
+  document.getElementById('fa_list').innerHTML = '';
+  var fas = 0;
 
-function createSurvivorList() {
-  document.getElementById('survivor_list').innerHTML = '';
-
-  var _iterator = _createForOfIteratorHelper(settlement.survivors),
+  var _iterator = _createForOfIteratorHelper(survivor.fighting_arts),
       _step;
 
   try {
     for (_iterator.s(); !(_step = _iterator.n()).done;) {
-      var survivor = _step.value;
-      document.getElementById('survivor_list').innerHTML += '<li><a href="#">' + survivor.name + '</a></li>';
+      var fa = _step.value;
+      fas += 1;
+      document.getElementById('fa_list').innerHTML += '<li>' + fa + '</li>';
     }
   } catch (err) {
     _iterator.e(err);
@@ -234,14 +239,36 @@ function createSurvivorList() {
     _iterator.f();
   }
 
-  var list = document.getElementById('survivor_list').getElementsByTagName('li');
+  for (; fas < survivor.max_fighting_arts; fas++) {
+    document.getElementById('fa_list').innerHTML += '<li>None</li>';
+  }
+}
 
-  var _iterator2 = _createForOfIteratorHelper(list),
+function createSurvivorList() {
+  document.getElementById('survivor_list').innerHTML = '';
+
+  var _iterator2 = _createForOfIteratorHelper(settlement.survivors),
       _step2;
 
   try {
+    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+      var survivor = _step2.value;
+      document.getElementById('survivor_list').innerHTML += '<li><a href="#">' + survivor.name + '</a></li>';
+    }
+  } catch (err) {
+    _iterator2.e(err);
+  } finally {
+    _iterator2.f();
+  }
+
+  var list = document.getElementById('survivor_list').getElementsByTagName('li');
+
+  var _iterator3 = _createForOfIteratorHelper(list),
+      _step3;
+
+  try {
     var _loop = function _loop() {
-      var item = _step2.value;
+      var item = _step3.value;
 
       item.onclick = function () {
         var chosen_survivor = settlement.survivors.find(function (x) {
@@ -251,13 +278,13 @@ function createSurvivorList() {
       };
     };
 
-    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+    for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
       _loop();
     }
   } catch (err) {
-    _iterator2.e(err);
+    _iterator3.e(err);
   } finally {
-    _iterator2.f();
+    _iterator3.f();
   }
 }
 
