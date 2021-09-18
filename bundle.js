@@ -47580,6 +47580,7 @@ function createRandomSurvivor() {
   while (!success) {
     //The split is to only grab the first name, since this name generator is dumb
     success = settlement.addSurvivor(rndNameGen.single().split(' ')[0]);
+    settlement.addDeparting(settlement.survivors[0]);
   }
 }
 
@@ -47621,6 +47622,7 @@ var Settlement = /*#__PURE__*/function () {
     this._name = "Dev Settlement";
     this._year = 0;
     this._survivors = [];
+    this._departing = [];
   }
 
   _createClass(Settlement, [{
@@ -47638,6 +47640,33 @@ var Settlement = /*#__PURE__*/function () {
         return true;
       } else {
         return false;
+      }
+    }
+  }, {
+    key: "checkDeparting",
+    value: function checkDeparting(survivor) {
+      if (this._departing.includes(survivor)) {
+        return true;
+      }
+
+      return false;
+    }
+  }, {
+    key: "addDeparting",
+    value: function addDeparting(survivor) {
+      console.log(this._departing);
+
+      if (this._departing.length < 4 && !this.checkDeparting(survivor)) {
+        this._departing.push(survivor);
+      }
+    }
+  }, {
+    key: "removeDeparting",
+    value: function removeDeparting(survivor) {
+      var index = this._departing.indexOf(survivor);
+
+      if (index > -1) {
+        this._departing.splice(index, 1);
       }
     }
   }, {
@@ -47802,7 +47831,12 @@ function createSurvivorList() {
   try {
     for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
       var survivor = _step2.value;
-      document.getElementById('survivor_list').innerHTML += '<li><a href="#">' + survivor.name + '</a></li>';
+
+      if (settlement.checkDeparting(survivor)) {
+        document.getElementById('survivor_list').innerHTML += '<li class="departing_item"><a href="#">' + survivor.name + '</a></li>';
+      } else {
+        document.getElementById('survivor_list').innerHTML += '<li class="regular_item"><a href="#">' + survivor.name + '</a></li>';
+      }
     }
   } catch (err) {
     _iterator2.e(err);
@@ -47829,7 +47863,8 @@ function createSurvivorList() {
 
     for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
       _loop();
-    }
+    } //document.getElementById('menuwrapper').style.backgroundcolor = ;
+
   } catch (err) {
     _iterator3.e(err);
   } finally {

@@ -26,9 +26,10 @@
     <p>This is where settlement stuff will go.</p>
   </div>
 
-  <div id="Survivors" class="tabcontent">
+  <div id="Survivors" class="tabcontent" class='container'>
     <h3>Survivors</h3>
-    <div style="width: 30%; float:left">
+
+    <div id="scroller_holder" style="width: 30%; float:left; border: 1px solid #ccc;;padding:20px;">
       <!http://jsfiddle.net/guilhermelucio/0Lxtmeyp/3/>
       <div class="scrollbar" class="tabcontent" id="survivor_scroller">
       	<div class="content">
@@ -38,8 +39,11 @@
           </div>
         </div>
       </div>
+      <button id="depart_btn" style="margin-top:20px;">Set as Departing</button>
+      <button id="undepart_btn">Remove from Departing Party</button>
     </div>
-    <div style="width: 60%; float:right">
+
+    <div style="width: 40%;float:left; margin-left: 20px">
       <p id="name"></p>
       <p id="xp"></p>
       <p id="courage"></p>
@@ -55,12 +59,15 @@
       <ul id="fa_list"></ul>
     </div>
 
+    <div style="float:right; width: 40%;">
+
+    </div>
+
   </div>
 
   <div id="Dev Tools" class="tabcontent">
     <h3>Dev Tools</h3>
     <button class="tablinks" id="create_survivor_btn">Create a Random Survivor</button>
   </div>
-
 
 </html>

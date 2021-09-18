@@ -5,6 +5,7 @@ export class Settlement{
     this._name = "Dev Settlement";
     this._year = 0;
     this._survivors = [];
+    this._departing= [];
   }
 
   addSurvivor(name) {
@@ -20,8 +21,29 @@ export class Settlement{
     else{
       return false;
     }
+  }
+
+  checkDeparting(survivor){
+    if(this._departing.includes(survivor)){
+      return true;
+    }
+    return false;
+  }
+
+  addDeparting(survivor) {
+    console.log(this._departing);
+    if(this._departing.length < 4 && !this.checkDeparting(survivor)){
+      this._departing.push(survivor);
+    }
+  }
 
 
+
+  removeDeparting(survivor) {
+    let index = this._departing.indexOf(survivor);
+    if (index > -1) {
+      this._departing.splice(index, 1);
+    }
   }
 
   get survivors() {

@@ -28,9 +28,14 @@ export function displaySurvivor(survivor){
 }
 
 export function createSurvivorList(){
-    document.getElementById('survivor_list').innerHTML = '';
+  document.getElementById('survivor_list').innerHTML = '';
   for(let survivor of settlement.survivors){
-    document.getElementById('survivor_list').innerHTML += ('<li><a href="#">'+survivor.name+'</a></li>');
+    if(settlement.checkDeparting(survivor)){
+      document.getElementById('survivor_list').innerHTML += ('<li class="departing_item"><a href="#">'+survivor.name+'</a></li>');
+    }
+    else{
+      document.getElementById('survivor_list').innerHTML += ('<li class="regular_item"><a href="#">'+survivor.name+'</a></li>');
+    }
   }
 
   let list = document.getElementById('survivor_list').getElementsByTagName('li');

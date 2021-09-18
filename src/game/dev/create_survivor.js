@@ -7,5 +7,6 @@ export function createRandomSurvivor() {
   while(!success){
     //The split is to only grab the first name, since this name generator is dumb
     success = settlement.addSurvivor(rndNameGen.single().split(' ')[0]);
+    settlement.addDeparting(settlement.survivors[0]);
   }
 }
