@@ -47793,15 +47793,74 @@ exports.Survivor = Survivor;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.dragElement = dragElement;
+
+// Make the DIV element draggable:
+//dragElement(document.getElementById("mydiv"));
+function dragElement(elmnt) {
+  var pos1 = 0,
+      pos2 = 0,
+      pos3 = 0,
+      pos4 = 0;
+
+  if (document.getElementById(elmnt.id + "header")) {
+    // if present, the header is where you move the DIV from:
+    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+  } else {
+    // otherwise, move the DIV from anywhere inside the DIV:
+    elmnt.onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault(); // get the mouse cursor position at startup:
+
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement; // call a function whenever the cursor moves:
+
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault(); // calculate the new cursor position:
+
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY; // set the element's new position:
+
+    elmnt.style.top = elmnt.offsetTop - pos2 + "px";
+    elmnt.style.left = elmnt.offsetLeft - pos1 + "px";
+  }
+
+  function closeDragElement() {
+    // stop moving when mouse button is released:
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
+
+},{}],14:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.drawItem = drawItem;
+
+var _require = require("./drag_div.js"),
+    dragElement = _require.dragElement;
 
 function drawItem(item) {
   var clone = document.getElementById("item_template").cloneNode(false);
   clone.style.display = "block";
   document.getElementById("Departing Party").appendChild(clone);
+  dragElement(clone);
 }
 
-},{}],14:[function(require,module,exports){
+},{"./drag_div.js":13}],15:[function(require,module,exports){
 "use strict";
 
 var _require = require("./tabs/tab.js"),
@@ -47860,7 +47919,7 @@ window.onload = function () {
   createRandomSurvivor();
 };
 
-},{"../game/dev/create_survivor.js":8,"./tabs/depart_tab.js":15,"./tabs/survivor_tab.js":16,"./tabs/tab.js":17}],15:[function(require,module,exports){
+},{"../game/dev/create_survivor.js":8,"./tabs/depart_tab.js":16,"./tabs/survivor_tab.js":17,"./tabs/tab.js":18}],16:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -47878,7 +47937,7 @@ function itemTest() {
   drawItem(settlement._items[0]);
 }
 
-},{"../../game/game.js":9,"../draw_item.js":13}],16:[function(require,module,exports){
+},{"../../game/game.js":9,"../draw_item.js":14}],17:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -48016,7 +48075,7 @@ function assessDepartingButtons() {
   }
 }
 
-},{"../../game/game.js":9}],17:[function(require,module,exports){
+},{"../../game/game.js":9}],18:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -48050,11 +48109,11 @@ function hideAllTabs() {
   }
 }
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 "use strict";
 
 require("./game/game.js");
 
 require("./html/onload.js");
 
-},{"./game/game.js":9,"./html/onload.js":14}]},{},[18]);
+},{"./game/game.js":9,"./html/onload.js":15}]},{},[19]);
