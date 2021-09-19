@@ -31,13 +31,10 @@ export class Settlement{
   }
 
   addDeparting(survivor) {
-    console.log(this._departing);
     if(this._departing.length < 4 && !this.checkDeparting(survivor)){
       this._departing.push(survivor);
     }
   }
-
-
 
   removeDeparting(survivor) {
     let index = this._departing.indexOf(survivor);

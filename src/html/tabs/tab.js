@@ -3,7 +3,7 @@ export function openTab(id) {
   var i, tablinks;
 
   hideAllTabs();
-
+  console.log("test12345")
   // Get all elements with class="tablinks" and remove the class "active"
   tablinks = document.getElementsByClassName("tablinks");
   for (i = 0; i < tablinks.length; i++) {

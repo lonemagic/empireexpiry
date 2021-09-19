@@ -67,8 +67,8 @@ export function removeDeparting(){
 }
 
 function assessDepartingButtons(){
-  let undepart_btn = document.getElementById("undepart_btn");
-  let depart_btn = document.getElementById("depart_btn");
+  let undepart_btn = document.getElementById("remove_depart_btn");
+  let depart_btn = document.getElementById("add_depart_btn");
 
   if(settlement.checkDeparting(chosen_survivor)){
     undepart_btn.disabled = false;

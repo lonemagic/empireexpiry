@@ -3,6 +3,7 @@ const {createRandomSurvivor} = require("../game/dev/create_survivor.js");
 const {createSurvivorList, addDeparting, removeDeparting} = require("./tabs/survivor_tab.js");
 
 window.onload = function(){
+  // Tabs
   document.getElementById("settlement_btn").onclick = function() {
     openTab('Settlement');
   }
@@ -16,23 +17,29 @@ window.onload = function(){
     openTab('Dev Tools');
   }
 
+  document.getElementById("depart_btn").onclick = function() {
+    openTab('Departing Party');
+    console.log("test")
+  }
+
+  // Survivor Tab UI
   document.getElementById("create_survivor_btn").onclick = function() {
     createRandomSurvivor();
   }
 
-  document.getElementById("depart_btn").onclick = function() {
+  document.getElementById("add_depart_btn").onclick = function() {
     addDeparting();
   }
 
-  document.getElementById("undepart_btn").onclick = function() {
+  document.getElementById("remove_depart_btn").onclick = function() {
     removeDeparting();
   }
 
-  // 4 Basic Survivors
-  createRandomSurvivor();
-  createRandomSurvivor();
-  createRandomSurvivor();
-  createRandomSurvivor();
-
   hideAllTabs();
+
+  // TODO: Remove this sometime.
+  createRandomSurvivor();
+  createRandomSurvivor();
+  createRandomSurvivor();
+  createRandomSurvivor();
 };

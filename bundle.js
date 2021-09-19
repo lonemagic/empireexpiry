@@ -47654,8 +47654,6 @@ var Settlement = /*#__PURE__*/function () {
   }, {
     key: "addDeparting",
     value: function addDeparting(survivor) {
-      console.log(this._departing);
-
       if (this._departing.length < 4 && !this.checkDeparting(survivor)) {
         this._departing.push(survivor);
       }
@@ -47744,6 +47742,7 @@ var _require3 = require("./tabs/survivor_tab.js"),
     removeDeparting = _require3.removeDeparting;
 
 window.onload = function () {
+  // Tabs
   document.getElementById("settlement_btn").onclick = function () {
     openTab('Settlement');
   };
@@ -47757,24 +47756,30 @@ window.onload = function () {
     openTab('Dev Tools');
   };
 
+  document.getElementById("depart_btn").onclick = function () {
+    openTab('Departing Party');
+    console.log("test");
+  }; // Survivor Tab UI
+
+
   document.getElementById("create_survivor_btn").onclick = function () {
     createRandomSurvivor();
   };
 
-  document.getElementById("depart_btn").onclick = function () {
+  document.getElementById("add_depart_btn").onclick = function () {
     addDeparting();
   };
 
-  document.getElementById("undepart_btn").onclick = function () {
+  document.getElementById("remove_depart_btn").onclick = function () {
     removeDeparting();
-  }; // 4 Basic Survivors
+  };
 
+  hideAllTabs(); // TODO: Remove this sometime.
 
   createRandomSurvivor();
   createRandomSurvivor();
   createRandomSurvivor();
   createRandomSurvivor();
-  hideAllTabs();
 };
 
 },{"../game/dev/create_survivor.js":8,"./tabs/survivor_tab.js":13,"./tabs/tab.js":14}],13:[function(require,module,exports){
@@ -47899,8 +47904,8 @@ function removeDeparting() {
 }
 
 function assessDepartingButtons() {
-  var undepart_btn = document.getElementById("undepart_btn");
-  var depart_btn = document.getElementById("depart_btn");
+  var undepart_btn = document.getElementById("remove_depart_btn");
+  var depart_btn = document.getElementById("add_depart_btn");
 
   if (settlement.checkDeparting(chosen_survivor)) {
     undepart_btn.disabled = false;
@@ -47927,7 +47932,8 @@ exports.hideAllTabs = hideAllTabs;
 function openTab(id) {
   // Declare all variables
   var i, tablinks;
-  hideAllTabs(); // Get all elements with class="tablinks" and remove the class "active"
+  hideAllTabs();
+  console.log("test12345"); // Get all elements with class="tablinks" and remove the class "active"
 
   tablinks = document.getElementsByClassName("tablinks");
 
