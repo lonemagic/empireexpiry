@@ -47739,7 +47739,9 @@ var _require2 = require("../game/dev/create_survivor.js"),
     createRandomSurvivor = _require2.createRandomSurvivor;
 
 var _require3 = require("./tabs/survivor_tab.js"),
-    createSurvivorList = _require3.createSurvivorList;
+    createSurvivorList = _require3.createSurvivorList,
+    addDeparting = _require3.addDeparting,
+    removeDeparting = _require3.removeDeparting;
 
 window.onload = function () {
   document.getElementById("settlement_btn").onclick = function () {
@@ -47757,6 +47759,14 @@ window.onload = function () {
 
   document.getElementById("create_survivor_btn").onclick = function () {
     createRandomSurvivor();
+  };
+
+  document.getElementById("depart_btn").onclick = function () {
+    addDeparting();
+  };
+
+  document.getElementById("undepart_btn").onclick = function () {
+    removeDeparting();
   }; // 4 Basic Survivors
 
 
@@ -47775,6 +47785,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.displaySurvivor = displaySurvivor;
 exports.createSurvivorList = createSurvivorList;
+exports.addDeparting = addDeparting;
+exports.removeDeparting = removeDeparting;
 
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
@@ -47784,6 +47796,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 var _require = require("../../game/game.js"),
     settlement = _require.settlement;
+
+var chosen_survivor = null;
 
 function displaySurvivor(survivor) {
   document.getElementById("name").innerHTML = "Name: " + survivor.name;
@@ -47818,8 +47832,9 @@ function displaySurvivor(survivor) {
 
   for (; fas < survivor.max_fighting_arts; fas++) {
     document.getElementById('fa_list').innerHTML += '<li>None</li>';
-  } //TODO: Finish this sometime
+  }
 
+  assessDepartingButtons(); //TODO: Finish this sometime
 }
 
 function createSurvivorList() {
@@ -47854,7 +47869,7 @@ function createSurvivorList() {
       var item = _step3.value;
 
       item.onclick = function () {
-        var chosen_survivor = settlement.survivors.find(function (x) {
+        chosen_survivor = settlement.survivors.find(function (x) {
           return x.name === item.innerText;
         });
         displaySurvivor(chosen_survivor);
@@ -47863,12 +47878,40 @@ function createSurvivorList() {
 
     for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
       _loop();
-    } //document.getElementById('menuwrapper').style.backgroundcolor = ;
-
+    }
   } catch (err) {
     _iterator3.e(err);
   } finally {
     _iterator3.f();
+  }
+
+  assessDepartingButtons();
+}
+
+function addDeparting() {
+  settlement.addDeparting(chosen_survivor);
+  createSurvivorList();
+}
+
+function removeDeparting() {
+  settlement.removeDeparting(chosen_survivor);
+  createSurvivorList();
+}
+
+function assessDepartingButtons() {
+  var undepart_btn = document.getElementById("undepart_btn");
+  var depart_btn = document.getElementById("depart_btn");
+
+  if (settlement.checkDeparting(chosen_survivor)) {
+    undepart_btn.disabled = false;
+    depart_btn.disabled = true;
+  } else {
+    undepart_btn.disabled = true;
+    depart_btn.disabled = false;
+  }
+
+  if (settlement._departing.length >= 4) {
+    depart_btn.disabled = true;
   }
 }
 

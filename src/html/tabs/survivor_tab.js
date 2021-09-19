@@ -1,5 +1,7 @@
 const {settlement} = require("../../game/game.js");
 
+let chosen_survivor = null;
+
 export function displaySurvivor(survivor){
   document.getElementById("name").innerHTML= "Name: " + survivor.name;
   document.getElementById("xp").innerHTML= "Hunt XP: " + survivor.xp;
@@ -24,6 +26,8 @@ export function displaySurvivor(survivor){
   for(;fas < survivor.max_fighting_arts; fas++){
     document.getElementById('fa_list').innerHTML += ('<li>None</li>');
   }
+
+  assessDepartingButtons();
   //TODO: Finish this sometime
 }
 
@@ -42,10 +46,40 @@ export function createSurvivorList(){
   for (let item of list) {
 
     item.onclick = function() {
-      var chosen_survivor = settlement.survivors.find(x => {
+      chosen_survivor = settlement.survivors.find(x => {
         return x.name === item.innerText;
       })
       displaySurvivor(chosen_survivor);
     }
+  }
+  assessDepartingButtons();
+
+}
+
+export function addDeparting(){
+  settlement.addDeparting(chosen_survivor);
+  createSurvivorList();
+}
+
+export function removeDeparting(){
+  settlement.removeDeparting(chosen_survivor);
+  createSurvivorList();
+}
+
+function assessDepartingButtons(){
+  let undepart_btn = document.getElementById("undepart_btn");
+  let depart_btn = document.getElementById("depart_btn");
+
+  if(settlement.checkDeparting(chosen_survivor)){
+    undepart_btn.disabled = false;
+    depart_btn.disabled = true;
+  }
+  else{
+    undepart_btn.disabled = true;
+    depart_btn.disabled = false;
+  }
+
+  if(settlement._departing.length >= 4){
+    depart_btn.disabled = true;
   }
 }
