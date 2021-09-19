@@ -6,6 +6,7 @@ export class Settlement{
     this._year = 0;
     this._survivors = [];
     this._departing= [];
+    this._items = [];
   }
 
   addSurvivor(name) {
@@ -52,5 +53,14 @@ export class Settlement{
   }
   set name(n) {
     this._name = n;
+  }
+  addItem(item){
+    this._items.push(item);
+  }
+  removeItem(item){
+    let index = this._items.indexOf(item);
+    if (index > -1) {
+      this._items.splice(index, 1);
+    }
   }
 }

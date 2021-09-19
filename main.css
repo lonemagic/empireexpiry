@@ -138,3 +138,10 @@ border-radius:10px;
 .clear{
     clear:both;
 }
+
+.item{
+  height: 200px;
+  width: 200px;
+  background-color:#099000;
+  display=none;
+}

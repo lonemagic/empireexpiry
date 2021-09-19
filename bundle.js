@@ -47595,10 +47595,56 @@ exports.settlement = void 0;
 var _require = require("./objects/settlement.js"),
     Settlement = _require.Settlement;
 
+var _require2 = require("./objects/item.js"),
+    Item = _require2.Item,
+    LOCATION = _require2.LOCATION;
+
+var image = "../../resources/helment.png";
 var settlement = new Settlement();
 exports.settlement = settlement;
+var item = new Item("helmet", [], image, LOCATION.HEAD, 1);
+settlement.addItem(item);
 
-},{"./objects/settlement.js":10}],10:[function(require,module,exports){
+},{"./objects/item.js":10,"./objects/settlement.js":11}],10:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Item = exports.LOCATION = exports.AFFIX = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var AFFIX = {
+  NONE: "none",
+  GREEN: "green",
+  BLUE: "blue",
+  RED: "red"
+};
+exports.AFFIX = AFFIX;
+var LOCATION = {
+  NONE: "none",
+  HEAD: "head",
+  BODY: "body",
+  ARM: "arm",
+  LEG: "leg",
+  WAIST: "waist"
+};
+exports.LOCATION = LOCATION;
+
+var Item = function Item(name, affixes, image, location, armor) {
+  _classCallCheck(this, Item);
+
+  this.name = name;
+  this.affixes = affixes;
+  this.image = image;
+  this.location = location;
+  this.armor = armor;
+};
+
+exports.Item = Item;
+
+},{}],11:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -47623,6 +47669,7 @@ var Settlement = /*#__PURE__*/function () {
     this._year = 0;
     this._survivors = [];
     this._departing = [];
+    this._items = [];
   }
 
   _createClass(Settlement, [{
@@ -47680,6 +47727,20 @@ var Settlement = /*#__PURE__*/function () {
     set: function set(n) {
       this._name = n;
     }
+  }, {
+    key: "addItem",
+    value: function addItem(item) {
+      this._items.push(item);
+    }
+  }, {
+    key: "removeItem",
+    value: function removeItem(item) {
+      var index = this._items.indexOf(item);
+
+      if (index > -1) {
+        this._items.splice(index, 1);
+      }
+    }
   }]);
 
   return Settlement;
@@ -47687,7 +47748,7 @@ var Settlement = /*#__PURE__*/function () {
 
 exports.Settlement = Settlement;
 
-},{"./survivor.js":11}],11:[function(require,module,exports){
+},{"./survivor.js":12}],12:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -47726,7 +47787,21 @@ var Survivor = function Survivor(name) {
 
 exports.Survivor = Survivor;
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.drawItem = drawItem;
+
+function drawItem(item) {
+  var clone = document.getElementById("item_template").cloneNode(false);
+  clone.style.display = "block";
+  document.getElementById("Departing Party").appendChild(clone);
+}
+
+},{}],14:[function(require,module,exports){
 "use strict";
 
 var _require = require("./tabs/tab.js"),
@@ -47740,6 +47815,9 @@ var _require3 = require("./tabs/survivor_tab.js"),
     createSurvivorList = _require3.createSurvivorList,
     addDeparting = _require3.addDeparting,
     removeDeparting = _require3.removeDeparting;
+
+var _require4 = require("./tabs/depart_tab.js"),
+    itemTest = _require4.itemTest;
 
 window.onload = function () {
   // Tabs
@@ -47758,7 +47836,7 @@ window.onload = function () {
 
   document.getElementById("depart_btn").onclick = function () {
     openTab('Departing Party');
-    console.log("test");
+    itemTest();
   }; // Survivor Tab UI
 
 
@@ -47782,7 +47860,25 @@ window.onload = function () {
   createRandomSurvivor();
 };
 
-},{"../game/dev/create_survivor.js":8,"./tabs/survivor_tab.js":13,"./tabs/tab.js":14}],13:[function(require,module,exports){
+},{"../game/dev/create_survivor.js":8,"./tabs/depart_tab.js":15,"./tabs/survivor_tab.js":16,"./tabs/tab.js":17}],15:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.itemTest = itemTest;
+
+var _require = require("../../game/game.js"),
+    settlement = _require.settlement;
+
+var _require2 = require("../draw_item.js"),
+    drawItem = _require2.drawItem;
+
+function itemTest() {
+  drawItem(settlement._items[0]);
+}
+
+},{"../../game/game.js":9,"../draw_item.js":13}],16:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -47920,7 +48016,7 @@ function assessDepartingButtons() {
   }
 }
 
-},{"../../game/game.js":9}],14:[function(require,module,exports){
+},{"../../game/game.js":9}],17:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -47932,8 +48028,7 @@ exports.hideAllTabs = hideAllTabs;
 function openTab(id) {
   // Declare all variables
   var i, tablinks;
-  hideAllTabs();
-  console.log("test12345"); // Get all elements with class="tablinks" and remove the class "active"
+  hideAllTabs(); // Get all elements with class="tablinks" and remove the class "active"
 
   tablinks = document.getElementsByClassName("tablinks");
 
@@ -47955,11 +48050,11 @@ function hideAllTabs() {
   }
 }
 
-},{}],15:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 "use strict";
 
 require("./game/game.js");
 
 require("./html/onload.js");
 
-},{"./game/game.js":9,"./html/onload.js":12}]},{},[15]);
+},{"./game/game.js":9,"./html/onload.js":14}]},{},[18]);

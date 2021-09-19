@@ -1,6 +1,7 @@
 const {openTab, hideAllTabs} = require("./tabs/tab.js");
 const {createRandomSurvivor} = require("../game/dev/create_survivor.js");
 const {createSurvivorList, addDeparting, removeDeparting} = require("./tabs/survivor_tab.js");
+const {itemTest} = require("./tabs/depart_tab.js");
 
 window.onload = function(){
   // Tabs
@@ -19,7 +20,7 @@ window.onload = function(){
 
   document.getElementById("depart_btn").onclick = function() {
     openTab('Departing Party');
-    console.log("test")
+    itemTest();
   }
 
   // Survivor Tab UI
