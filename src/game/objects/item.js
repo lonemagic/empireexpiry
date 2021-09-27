@@ -15,11 +15,15 @@ export const LOCATION = {
 }
 
 export class Item{
-  constructor(name, affixes, image, location, armor){
+  constructor(name, affixes, image, location, armor, categories, keywords, effect, stats){
     this.name = name;
     this.affixes = affixes;
     this.image = image;
     this.location = location;
     this.armor = armor;
+    this.categories = categories;
+    this.keywords = keywords;
+    this.effect = effect;
+    this.stats = stats;
   }
 }

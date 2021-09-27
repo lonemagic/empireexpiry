@@ -47595,17 +47595,30 @@ exports.settlement = void 0;
 var _require = require("./objects/settlement.js"),
     Settlement = _require.Settlement;
 
-var _require2 = require("./objects/item.js"),
-    Item = _require2.Item,
-    LOCATION = _require2.LOCATION;
+var _require2 = require("./game_object_creation/game_items.js"),
+    test_helmet = _require2.test_helmet;
 
-var image = "../../resources/helment.png";
 var settlement = new Settlement();
 exports.settlement = settlement;
-var item = new Item("helmet", [], image, LOCATION.HEAD, 1);
-settlement.addItem(item);
+settlement.addItem(test_helmet);
 
-},{"./objects/item.js":10,"./objects/settlement.js":11}],10:[function(require,module,exports){
+},{"./game_object_creation/game_items.js":10,"./objects/settlement.js":12}],10:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.test_helmet = void 0;
+
+var _require = require("../objects/item.js"),
+    Item = _require.Item,
+    LOCATION = _require.LOCATION;
+
+var image = "resources/helmet.png";
+var test_helmet = new Item("Test Helmet", [], image, LOCATION.HEAD, 1, "heavy, consumable", "Cursed", "+1 Insanity when Departing", null);
+exports.test_helmet = test_helmet;
+
+},{"../objects/item.js":11}],11:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -47632,7 +47645,7 @@ var LOCATION = {
 };
 exports.LOCATION = LOCATION;
 
-var Item = function Item(name, affixes, image, location, armor) {
+var Item = function Item(name, affixes, image, location, armor, categories, keywords, effect, stats) {
   _classCallCheck(this, Item);
 
   this.name = name;
@@ -47640,11 +47653,15 @@ var Item = function Item(name, affixes, image, location, armor) {
   this.image = image;
   this.location = location;
   this.armor = armor;
+  this.categories = categories;
+  this.keywords = keywords;
+  this.effect = effect;
+  this.stats = stats;
 };
 
 exports.Item = Item;
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -47748,7 +47765,7 @@ var Settlement = /*#__PURE__*/function () {
 
 exports.Settlement = Settlement;
 
-},{"./survivor.js":12}],12:[function(require,module,exports){
+},{"./survivor.js":13}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -47787,7 +47804,7 @@ var Survivor = function Survivor(name) {
 
 exports.Survivor = Survivor;
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -47842,7 +47859,7 @@ function dragElement(elmnt) {
   }
 }
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -47855,12 +47872,43 @@ var _require = require("./drag_div.js"),
 
 function drawItem(item) {
   var clone = document.getElementById("item_template").cloneNode(false);
-  clone.style.display = "block";
-  document.getElementById("Departing Party").appendChild(clone);
+  var name = document.createElement("P");
+  var categories = document.createElement("P");
+  var keywords = document.createElement("P");
+  var effect = document.createElement("P");
+  name.style.textAlign = "center";
+  categories.style.textAlign = "center";
+  keywords.style.textAlign = "center";
+  effect.style.textAlign = "center";
+  name.style.margin = 0;
+  categories.style.margin = 0;
+  name.style.padding = 0;
+  categories.style.padding = 0;
+  keywords.style.margin = 0;
+  effect.style.margin = 0;
+  keywords.style.padding = 0;
+  effect.style.padding = 0;
+  name.innerHTML += item.name;
+  categories.innerHTML += item.categories;
+  keywords.innerHTML += item.keywords;
+  effect.innerHTML += item.effect;
+  var image = document.createElement("img");
+  image.src = item.image;
+  image.style.backgroundColor = "red";
+  clone.appendChild(name);
+  clone.appendChild(categories);
+  clone.appendChild(image);
+  clone.appendChild(keywords);
+  clone.appendChild(effect); // Make visible
+
+  clone.style.display = "block"; // Add new item to the Depart tab, perhaps makes this an arg later
+
+  document.getElementById("Departing Party").appendChild(clone); // Add dragable property
+
   dragElement(clone);
 }
 
-},{"./drag_div.js":13}],15:[function(require,module,exports){
+},{"./drag_div.js":14}],16:[function(require,module,exports){
 "use strict";
 
 var _require = require("./tabs/tab.js"),
@@ -47919,7 +47967,7 @@ window.onload = function () {
   createRandomSurvivor();
 };
 
-},{"../game/dev/create_survivor.js":8,"./tabs/depart_tab.js":16,"./tabs/survivor_tab.js":17,"./tabs/tab.js":18}],16:[function(require,module,exports){
+},{"../game/dev/create_survivor.js":8,"./tabs/depart_tab.js":17,"./tabs/survivor_tab.js":18,"./tabs/tab.js":19}],17:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -47937,7 +47985,7 @@ function itemTest() {
   drawItem(settlement._items[0]);
 }
 
-},{"../../game/game.js":9,"../draw_item.js":14}],17:[function(require,module,exports){
+},{"../../game/game.js":9,"../draw_item.js":15}],18:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -48075,7 +48123,7 @@ function assessDepartingButtons() {
   }
 }
 
-},{"../../game/game.js":9}],18:[function(require,module,exports){
+},{"../../game/game.js":9}],19:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -48109,11 +48157,11 @@ function hideAllTabs() {
   }
 }
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 "use strict";
 
 require("./game/game.js");
 
 require("./html/onload.js");
 
-},{"./game/game.js":9,"./html/onload.js":15}]},{},[19]);
+},{"./game/game.js":9,"./html/onload.js":16}]},{},[20]);

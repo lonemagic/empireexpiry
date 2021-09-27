@@ -1,8 +1,6 @@
 const {Settlement} = require("./objects/settlement.js");
-const {Item, LOCATION} = require("./objects/item.js");
-
-let image = "../../resources/helment.png";
+const {test_helmet} = require("./game_object_creation/game_items.js");
 
 export let settlement = new Settlement();
-let item = new Item("helmet", [], image, LOCATION.HEAD, 1);
-settlement.addItem(item);
+
+settlement.addItem(test_helmet);
