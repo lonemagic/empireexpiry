@@ -47614,7 +47614,7 @@ var _require = require("../objects/item.js"),
     Item = _require.Item,
     LOCATION = _require.LOCATION;
 
-var image = "resources/helmet.png";
+var image = "resources/halo_helmet.png";
 var test_helmet = new Item("Test Helmet", [], image, LOCATION.HEAD, 1, "heavy, consumable", "Cursed", "+1 Insanity when Departing", null);
 exports.test_helmet = test_helmet;
 
@@ -47876,10 +47876,6 @@ function drawItem(item) {
   var categories = document.createElement("P");
   var keywords = document.createElement("P");
   var effect = document.createElement("P");
-  name.style.textAlign = "center";
-  categories.style.textAlign = "center";
-  keywords.style.textAlign = "center";
-  effect.style.textAlign = "center";
   name.style.margin = 0;
   categories.style.margin = 0;
   name.style.padding = 0;
@@ -47894,14 +47890,14 @@ function drawItem(item) {
   effect.innerHTML += item.effect;
   var image = document.createElement("img");
   image.src = item.image;
-  image.style.backgroundColor = "red";
   clone.appendChild(name);
   clone.appendChild(categories);
   clone.appendChild(image);
   clone.appendChild(keywords);
   clone.appendChild(effect); // Make visible
 
-  clone.style.display = "block"; // Add new item to the Depart tab, perhaps makes this an arg later
+  clone.style.display = "block";
+  clone.style.textAlign = "center"; // Add new item to the Depart tab, perhaps makes this an arg later
 
   document.getElementById("Departing Party").appendChild(clone); // Add dragable property
 

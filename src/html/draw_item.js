@@ -8,10 +8,6 @@ export function drawItem(item){
   var keywords = document.createElement("P");
   var effect = document.createElement("P");
 
-  name.style.textAlign = "center";
-  categories.style.textAlign = "center";
-  keywords.style.textAlign = "center";
-  effect.style.textAlign = "center";
 
   name.style.margin = 0;
   categories.style.margin = 0;
@@ -29,7 +25,7 @@ export function drawItem(item){
 
   var image = document.createElement("img");
   image.src = item.image;
-  image.style.backgroundColor = "red";
+
 
   clone.appendChild(name);
   clone.appendChild(categories);
@@ -38,6 +34,7 @@ export function drawItem(item){
   clone.appendChild(effect);
   // Make visible
   clone.style.display = "block";
+  clone.style.textAlign = "center";
   // Add new item to the Depart tab, perhaps makes this an arg later
   document.getElementById("Departing Party").appendChild(clone);
   // Add dragable property
